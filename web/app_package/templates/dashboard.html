@@ -1,0 +1,44 @@
+{% extends "_layout.html" %}
+{% block main %}
+<section class="dashboard">
+
+  <div class = "dashboard_body">
+    <div class = "title">
+      {{ page_name }}
+    </div>
+
+    <div class="dashboard_chart">
+
+        <div class="chart">
+          {{ div_b|safe }}
+        </div>
+    </div>
+<br>
+    {% if correlation != 'too small sample' %}
+    <div class="dashboard_chart">
+      <div class="correlation_div">
+
+        When the temperature raises increased your sleep score changes by a score of {{ correlation }}
+      </div>
+
+  </div>
+  {% endif %}
+
+
+  </div>
+
+</section>
+
+
+{{ script_b|safe }}
+
+
+
+<script src="{{ cdn_js_b[0] }}" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    Bokeh.set_log_level("info");
+</script>
+
+
+
+{% endblock %}
