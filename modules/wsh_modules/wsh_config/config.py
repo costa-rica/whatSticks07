@@ -8,7 +8,7 @@ elif os.environ.get('COMPUTERNAME')=='NICKSURFACEPRO4':
     with open(r"C:\Users\Costa Rica\Documents\_configs\config_wsh20220924.json") as config_file:
         config = json.load(config_file)
 else:
-    with open(r"/home/ubuntu/config_wsh20220924_ubuntu.json") as config_file:
+    with open(r"/home/ubuntu/config_wsh20220925_ubuntu.json") as config_file:
         config = json.load(config_file)
 
 
