@@ -52,14 +52,16 @@ def our_we_running():
 @sched_route.route('/get_locations')
 def get_locations():
     # print('*** wsh api accessed: get_Locations ***')
-    logger_sched.info(f"--- wsh06 API get_locations endpoint")
+    logger_sched.info(f"--- wsh07 API get_locations endpoint")
 
     request_data = request.get_json()
+    
     if request_data.get('password') == config.WSH_API_PASSWORD:
-        # print('password accepted')
+        logger_sched.info(f"--- wsh07 password accepted")
 
         locations = sess.query(Locations).all()
         locations_dict = {i.id: [i.lat, i.lon] for i in locations}
+        logger_sched.info(f"--- {len(locations_dict)} locations found in database")
 
         #TODO: CHECK THIS Code ***
         #check weather_hist table for date and location id
@@ -70,7 +72,7 @@ def get_locations():
             yesterday = datetime.today() - timedelta(days=1)
             yesterday_formatted =  yesterday.strftime('%Y-%m-%d')
             weather_history_records = sess.query(Weather_history).filter_by(
-                date = yesterday_formatted,
+                datetime = yesterday_formatted,
                 location_id = loc_id
             ).first()
             if weather_history_records:
@@ -78,7 +80,7 @@ def get_locations():
                 del locations_dict[loc_id]
                 logger_sched.info(f"Location deleted")
 
-        
+        logger_sched.info(f"--- {len(locations_dict)} weather calls made - some may be removed b/c data already exists")
         logger_sched.info(f"Returning locations_dict")
         return locations_dict
     else:
@@ -108,7 +110,7 @@ def receive_weather_data():
         #check that weather does not already exist:
             row_exists = sess.query(Weather_history).filter_by(
                 location_id= loc_id,
-                date = hist_weather.get('datetime')).first()
+                datetime = hist_weather.get('datetime')).first()
             
             if not row_exists:
                 upload_dict ={ key: value for key, value in hist_weather.items()}
@@ -172,7 +174,7 @@ def add_user_loc_day():
             new_loc_day_row_dict['date'] =  yesterday_formatted
             
             row_exists = sess.query(User_location_day).filter_by(user_id = user.id, 
-                date = yesterday_formatted, local_time ="00:01").all()[0]
+                date = yesterday_formatted, local_time ="00:01").first()
             if not row_exists:
                 new_loc_day = User_location_day(**new_loc_day_row_dict)
                 sess.add(new_loc_day)
@@ -199,9 +201,9 @@ def location_exists(user):
         lat_diff = abs(user.lat - loc.lat)
         lon_diff = abs(user.lon - loc.lon)
         loc_dist_diff = lat_diff + lon_diff
-        logger_sched.info('** Differences **')
-        logger_sched.info(f'lat_difference:{lat_diff}')
-        logger_sched.info(f'lon_diff:{lon_diff}')
+        # logger_sched.info('** Differences **')
+        # logger_sched.info(f'lat_difference:{lat_diff}')
+        # logger_sched.info(f'lon_diff:{lon_diff}')
 
         if loc_dist_diff < min_loc_distance_difference:
             logger_sched.info('-----> loc_dist_diff is less than min required')

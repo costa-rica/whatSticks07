@@ -17,7 +17,7 @@ if os.environ.get('COMPUTERNAME')=='CAPTAIN2020' or os.environ.get('COMPUTERNAME
     print('* Development')
 else:
     config = ConfigProd()
-    config.app_dir = r"/home/ubuntu/applications/whatSticks06scheduler/"
+    config.app_dir = r"/home/ubuntu/applications/scheduler/"
     logs_dir = config.app_dir
     config.json_utils_dir = os.path.join(config.app_dir,'json_utils_dir')
     print('* ---> Configured for Production')
@@ -57,8 +57,8 @@ def scheduler_funct():
     scheduler = BackgroundScheduler()
 
     # job_call_get_locations = scheduler.add_job(get_locations, 'cron',  day='*', hour='23')#Production
-    # job_call_get_locations = scheduler.add_job(get_locations, 'cron',  hour='*', minute='56', second='35')#Testing
-    job_call_harmless = scheduler.add_job(harmless, 'cron',  hour='*', minute='57', second='15')#Testing
+    job_call_get_locations = scheduler.add_job(get_locations, 'cron',  hour='*', minute='46', second='05')#Testing
+    # job_call_harmless = scheduler.add_job(harmless, 'cron',  hour='*', minute='26', second='15')#Testing
 
     scheduler.start()
 
@@ -94,7 +94,7 @@ def harmless():
     response_oura_tokens = requests.request('GET',base_url + '/oura_tokens', headers=headers, data=str(json.dumps(payload)))
     logger_init.info(f'oura_tokens response: {response_oura_tokens.status_code}')
     oura_tokens_dict = json.loads(response_oura_tokens.content.decode('utf-8'))
-    logger_init.info(f'get_locations content count: {len(oura_tokens_dict)}')
+    logger_init.info(f'oura_tokens content count: {len(oura_tokens_dict)}')
     logger_init.info(f'Scheduler DONE with harmless check of: {base_url}')
 
 
