@@ -147,19 +147,17 @@ def call_weather_api():
     weather_dict = {}
     #1) Loop through dictionary
     for loc_id, coords in locations_dict.items():
-        location_coords = f"{coords[0]}, {coords[1]}"
-        api_token = config.WEATHER_API_KEY
-        # base_url = 'http://api.weatherapi.com/v1'#TODO: put this address in config
-        base_url = config.WEATHER_API_URL_BASE
-        history = '/history.json'
-        payload = {}
-        payload['q'] = location_coords
-        payload['key'] = api_token
+        location_coords = f"{coords[0]},{coords[1]}"
+
         yesterday = datetime.today() - timedelta(days=1)
-        payload['dt'] = yesterday.strftime('%Y-%m-%d')
-        payload['hour'] = 0
+        yesterday_formatted = yesterday.strftime('%Y-%m-%d')
+
+        date_time = datetime.strptime(yesterday_formatted + " 13:00:00", "%Y-%m-%d %H:%M:%S").isoformat()
+
+        weather_call_url =f"{config.VISUAL_CROSSING_BASE_URL}{location_coords}/{str(date_time)}?key={config.VISUAL_CROSSING_TOKEN}&include=current"
+
         try:
-            r_history = requests.get(base_url + history, params = payload)
+            r_history = requests.get(weather_call_url)
             
             if r_history.status_code == 200:
             
@@ -182,16 +180,13 @@ def call_weather_api():
 
 #3) send weather data to wsh06 api
 def send_weather_data_to_wsh():
-    # print('--- In send_weather_data_to_wsh() of scheduler.py----')
     logger_init.info('--- In send_weather_data_to_wsh() of scheduler.py----')
-    # get oura response data from os.path.join(os.getcwd(), 'get_oura_tokens.json')
     
     try:
         with open(os.path.join(config.json_utils_dir, '_locations2_call_weather_api.json')) as json_file:
             weather_response_dict = json.loads(json.load(json_file))
     except:
         weather_response_dict=''
-    
     
     if weather_response_dict !='':
         
@@ -285,12 +280,8 @@ def send_oura_data_to_wsh():
     payload['password'] = config.EMAIL_PASSWORD
     payload['oura_response_dict'] = oura_response_dict
     response_oura_tokens = requests.request('GET',base_url + '/receive_oura_data', headers=headers, data=str(json.dumps(payload)))
-    oura_tokens_dict = json.loads(response_oura_tokens.content.decode('utf-8'))
-    response_oura_tokens.status_code
-
+    logger_init.info(f'---> WSH API /receive_oura_data response: {response_oura_tokens.status_code}')
     logger_init.info(f'---> FINISHED last line of call from the Scheduler app')
-
-
 
 
 

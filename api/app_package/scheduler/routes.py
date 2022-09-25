@@ -3,7 +3,7 @@ from flask import Flask, request, jsonify, make_response, current_app
 from wsh_config import ConfigDev, ConfigProd
 from wsh_models import sess, Users, Oura_token, Oura_sleep_descriptions,\
     Locations, Weather_history, User_location_day
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 import logging
 from logging.handlers import RotatingFileHandler
 import os
@@ -103,41 +103,39 @@ def receive_weather_data():
         #Add response to weather history table
         for loc_id, weather_response in weather_response_dict.items():
 
-            forecast = weather_response.get('forecast').get('forecastday')[0]
+            hist_weather = weather_response.get('days')[0]
             
-            #check that weather does not already exist:
+        #check that weather does not already exist:
             row_exists = sess.query(Weather_history).filter_by(
                 location_id= loc_id,
-                date = forecast.get('date')).first()
+                date = hist_weather.get('datetime')).first()
             
             if not row_exists:
-                weather_hist_temp = {}
-                # Get location stuff
-                weather_hist_temp['city_location_name'] = weather_response.get('location').get('name')
-                weather_hist_temp['region_name'] = weather_response.get('location').get('region')
-                weather_hist_temp['country_name'] = weather_response.get('location').get('country')
-                weather_hist_temp['lat'] = weather_response.get('location').get('lat')
-                weather_hist_temp['lon'] = weather_response.get('location').get('lon')
-                weather_hist_temp['tz_id'] = weather_response.get('location').get('tz_id')
-                weather_hist_temp['location_id'] = loc_id #needs location id*****
+                upload_dict ={ key: value for key, value in hist_weather.items()}
+                # del upload_dict['stations']
+                # del upload_dict['source']
+                upload_dict['location_id'] = loc_id
+                # added specifically for 'datetime': '2021-09-23'
+                upload_dict_keys = list(upload_dict.keys())
+                for key in upload_dict_keys:
+                    if isinstance(upload_dict[key], list):
+                        upload_dict[key] = upload_dict[key][0]
+                    if key not in Weather_history.__table__.columns.keys():
+                        del upload_dict[key]
+                try:
+                    new_data = Weather_history(**upload_dict)
+                    sess.add(new_data)
+                    sess.commit()
+                    counter_all += 1
+                except:
+                    print(f'row failed, date: {upload_dict.get("date")}')
+                    # break
                 
-                #Get temperature stuff
-                weather_hist_temp['date']= forecast.get('date')
-                weather_hist_temp['maxtemp_f']= forecast.get('day').get('maxtemp_f')
-                weather_hist_temp['mintemp_f']= forecast.get('day').get('mintemp_f')
-                weather_hist_temp['avgtemp_f']= forecast.get('day').get('avgtemp_f')
-                weather_hist_temp['sunset']= forecast.get('astro').get('sunset')
-                weather_hist_temp['sunrise']= forecast.get('astro').get('sunrise')
-                # weather_hist_list.append(weather_hist_temp)
-                new = Weather_history(**weather_hist_temp)
-                sess.add(new)
-                sess.commit()
-                counter_all += 1
 
         
-        #Create another row in user_oura_weather_day
+        #Create another row in user_loc_day
+        add_user_loc_day()
         if counter_all>0:
-            add_user_loc_day()
             logger_sched.info(f"--- Succesfully added {counter_all} weather hist rows")
             return jsonify({'message': f'Successfully added {counter_all} weather hist rows'})
         else:
@@ -151,64 +149,39 @@ def receive_weather_data():
 
 
 def add_user_loc_day():
-    # print('adding data for dashboard')
-    
-    logger_sched.info(f"--- wsh06 API add_user_loc_day function: adding data for dashboard")
+
+    # ADD row for each user in User_location_day
+    logger_sched.info(f"--- wsh07 API add_user_loc_day: This table assumes the user is in the same location")
 
     #for each user
-    users = sess.query(Users).all()
+    users = sess.query(Users).filter(Users.id != 2).all()
     yesterday = datetime.today() - timedelta(days=1)
+    yesterday_formatted = yesterday.strftime('%Y-%m-%d')#yesterday's date from the weather hist table
+    local_time = f"00:01"
 
     for user in users:
         new_loc_day_row_dict = {}
         new_loc_day_row_dict['user_id'] = user.id
         location_id = None
-        if isinstance(user.lat, float):
+        if isinstance(user.lat, float):# <-- user is sharing a location with WS
 
             #search for nearset locatoin
             location_id = location_exists(user)
             new_loc_day_row_dict['location_id'] = location_id
+            new_loc_day_row_dict['local_time'] = local_time
+            new_loc_day_row_dict['date'] =  yesterday_formatted
             
-            yesterday_weather_loc = sess.query(Weather_history).filter_by(
-                date = yesterday.strftime('%Y-%m-%d'),
-                location_id = location_id).first()
-            # new_loc_day_row_dict['date'] =  yesterday.strftime('%m/%d/%Y')#yesterday's date from the weather hist table
-            new_loc_day_row_dict['date'] =  yesterday.strftime('%Y-%m-%d')#yesterday's date from the weather hist table
-            new_loc_day_row_dict['avgtemp_f'] = yesterday_weather_loc.avgtemp_f#yesterday's temperature form weather hist table
-        
-        yesterday_oura = sess.query(Oura_sleep_descriptions).filter_by(
-            user_id = user.id,
-            summary_date = yesterday.strftime('%Y-%m-%d')
-        ).first()
-
-        if yesterday_oura != None:
-            new_loc_day_row_dict['score'] = yesterday_oura.score#sleep score from oura_table
-        else:
-            # print('This user does not have oura')
-            logger_sched.info(f"--- This user does not have oura: {user}")
-            # print(user)
-        
-
-        if isinstance(user.lat, float):
-            #verify that row for this day does not already exists
-            user_location_day_row_exists = sess.query(User_location_day).filter_by(
-                date =yesterday.strftime('%m/%d/%Y'),
-                user_id = user.id,
-                location_id = location_id).first()
-
-            if not user_location_day_row_exists:
-                # print('*** No user_location_day_row_exists. It equals: ', user_location_day_row_exists)
-                logger_sched.info(f"--- No user_location_day_row_exists. It equals:  {user_location_day_row_exists}")
-                new_loc_day_row_dict['row_type'] = 'scheduler'
-
+            row_exists = sess.query(User_location_day).filter_by(user_id = user.id, 
+                date = yesterday_formatted, local_time ="00:01").all()[0]
+            if not row_exists:
                 new_loc_day = User_location_day(**new_loc_day_row_dict)
                 sess.add(new_loc_day)
                 sess.commit()
-                logger_sched.info('---> Therefore, row added')
+                # logger_sched.info('---> Therefore, row added')
+                logger_sched.info(f"--- user_location_row added for user_id: {user.id}, date: {yesterday_formatted}, time: 00:01")
             else:
-                logger_sched.info('Row turned down because it already exits in the table')
-                logger_sched.info(user_location_day_row_exists)
-
+                logger_sched.info(f"*** user_location_row Already EXISTS for user_id: {user.id}, date: {yesterday_formatted}, time: 00:01")
+ 
 
     #1) get their user_id
     #2) locatoin_id
