@@ -26,6 +26,8 @@ users = Blueprint('users', __name__)
 
 @users.route('/', methods=['GET', 'POST'])
 def home():
+    if current_user.is_authenticated:
+        return redirect(url_for('dash.dashboard'))
     if request.method == 'POST':
         formDict = request.form.to_dict()
         if formDict.get('login'):
@@ -38,6 +40,8 @@ def home():
 @users.route('/login', methods = ['GET', 'POST'])
 def login():
     print('* in login *')
+    if current_user.is_authenticated:
+        return redirect(url_for('dash.dashboard'))
     page_name = 'Login'
     if request.method == 'POST':
         formDict = request.form.to_dict()
@@ -80,6 +84,8 @@ def login():
 
 @users.route('/register', methods = ['GET', 'POST'])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('dash.dashboard'))
     page_name = 'Register'
     if request.method == 'POST':
         formDict = request.form.to_dict()
