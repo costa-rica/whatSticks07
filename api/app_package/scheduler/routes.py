@@ -288,7 +288,6 @@ def receive_oura_data():
                         session['user_id'] = user_id
 
                         #3c) new oura_sleep_descript objec, then add, then commit
-                        flag_add_to_oura_sleep_descript = False
                         try:
                             new_oura_session = Oura_sleep_descriptions(**session)
                             sess.add(new_oura_session)
@@ -296,16 +295,10 @@ def receive_oura_data():
                             wsh_oura_add_response_dict[user_id] = 'Added Successfully'
                             counter_all += 1
                             counter_user += 1
-                            logger_sched.info(f'---> Successfully added session : {temp_bedtime_end} for user id: {user_id}')
-                            flag_add_to_oura_sleep_descript = True
-                            add_user_loc_day_oura(user_id, temp_bedtime_end)
-                            
+                            logger_sched.info(f'---> Successfully added session : {temp_bedtime_end} for user id: {user_id}')                           
                         except:
                             wsh_oura_add_response_dict[user_id] = 'Failed to add data'
-                            if not flag_add_to_oura_sleep_descript:
-                                logger_sched.info(f'---> * FAILED * to added session : {temp_bedtime_end} for user id: {user_id}')
-                            else:
-                                logger_sched.info(f'---> * FAILED (only User_loc_day) * to added session : {temp_bedtime_end} for user id: {user_id}')
+                            logger_sched.info(f'---> * FAILED (only User_loc_day) * to added session : {temp_bedtime_end} for user id: {user_id}')
   
             else:
                 wsh_oura_add_response_dict[user_id] = f'No data added due to {oura_response.get("No Oura data reason")}'
@@ -320,16 +313,3 @@ def receive_oura_data():
     return make_response('Could not verify',
             401, 
             {'WWW-Authenticate' : 'Basic realm="Login required!"'})
-
-def add_user_loc_day_oura(user_id, bedtime_end):
-    logger_sched.info(f' In add_user_loc_day_oura')
-    oura_session = sess.query(Oura_sleep_descriptions).filter_by(
-        user_id = user_id, bedtime_end = bedtime_end
-    ).all()[-1]
-
-    user_loc_day_oura_add = sess.query(User_location_day).filter_by(user_id = user_id,
-        date = oura_session.summary_date).all()[-1]
-
-    user_loc_day_oura_add.score = oura_session.score
-    sess.commit()
-    logger_sched.info(f'---> Successfully added oura score to User_loc_day for {oura_session.summary_date} for user id: {user_id}')
