@@ -10591,6 +10591,8 @@ textarea.form-control-lg {
 
 body {
   background-color: var(--bs-gray-200);
+  height: 100%;
+  width: 100%;
 }
 
 .btn_custom01 {
@@ -10718,7 +10720,7 @@ section.home .home_body .home_buttons .div_button {
   flex: 1;
   border-radius: 3em;
   padding: 100px 0 100px 10px;
-  margin: 0 0 0 30px;
+  margin: 0 0 0 0;
   text-align: center;
   font-size: 2.5em;
 }
@@ -10736,7 +10738,7 @@ section.home .home_body .home_buttons .home_login {
 section.home .home_body .div_writing {
   border-radius: 3em;
   padding: 50px 0 50px 5px;
-  margin: 0 0 0 30px;
+  margin: 0 0 0 0;
   font-size: 1.5em;
   background-color: var(--bs-primary);
   border: 1px solid var(--bs-primary);
@@ -10884,9 +10886,6 @@ section.about_us .about_us_body .div_writing {
   border-width: 0.5em;
   color: white;
 }
-section.about_us .about_us_body .div_writing a {
-  color: white;
-}
 
 /*Error Page*/
 section.Error {
@@ -10898,6 +10897,23 @@ section.Error .error_body {
 }
 section.Error .error_body h3 {
   padding: 25px 0 0 50px;
+}
+
+/* About us */
+section.youtube {
+  padding: var(--nav_height) 5px 0 10px;
+}
+section.youtube .videoWrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+}
+section.youtube .videoWrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 80%;
 }
 
 @media only screen and (min-width: 1080px) {

@@ -391,3 +391,8 @@ def about_us():
 def privacy():
     page_name = 'Privacy'
     return render_template('privacy.html', page_name = page_name)
+
+@users.route('/YouTube_OAuth_Cred_Request')
+def youtube_request():
+    page_name = 'YouTub OAuth 2.0 Credentials Request'
+    return render_template('youtube.html', page_name = page_name)

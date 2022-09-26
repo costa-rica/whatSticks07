@@ -174,7 +174,7 @@ def add_user_loc_day():
             new_loc_day_row_dict['date'] =  yesterday_formatted
             
             row_exists = sess.query(User_location_day).filter_by(user_id = user.id, 
-                date = yesterday_formatted, local_time ="00:01").first()
+                date = yesterday_formatted, local_time ="00:01", location_id = location_id).first()
             if not row_exists:
                 new_loc_day = User_location_day(**new_loc_day_row_dict)
                 sess.add(new_loc_day)

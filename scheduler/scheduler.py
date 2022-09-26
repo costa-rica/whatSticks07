@@ -47,23 +47,32 @@ logger_init.addHandler(stream_handler)
 
 
 def scheduler_funct():
-    
     logger_init.info(f'--- Started Scheduler *')
-
     if not os.path.exists(config.json_utils_dir):
         os.makedirs(config.json_utils_dir)
         logger_init.info(f'--- successfully created {config.json_utils_dir} *')
 
+    yesterday = datetime.today() - timedelta(days=1)
+    date_formatted = yesterday.strftime('%Y-%m-%d')
+
     scheduler = BackgroundScheduler()
 
     # job_call_get_locations = scheduler.add_job(get_locations, 'cron',  day='*', hour='23')#Production
-    job_call_get_locations = scheduler.add_job(get_locations, 'cron',  hour='*', minute='46', second='05')#Testing
+    job_call_get_locations = scheduler.add_job(get_locations, 'cron', [date_formatted], hour='*', minute='46', second='05')#Testing
     # job_call_harmless = scheduler.add_job(harmless, 'cron',  hour='*', minute='26', second='15')#Testing
 
     scheduler.start()
 
     while True:
         pass
+
+
+# create funct_test_harmless
+
+# create funct_weather_on_date
+
+# create funct_
+
 
 
 def harmless():
@@ -83,7 +92,7 @@ def harmless():
     
 
     logger_init.info(f'---> Sending call to wsh06 api get_locations')
-    payload['password'] = config.EMAIL_PASSWORD
+    payload['password'] = config.WSH_API_PASSWORD
     response_wsh_locations = requests.request('GET',base_url + '/get_locations',
         headers=headers, data=str(json.dumps(payload)))
     logger_init.info(f'get_locations response: {response_wsh_locations.status_code}')
@@ -99,14 +108,14 @@ def harmless():
 
 
 #1) send call to wsh06 api to get locations
-def get_locations():
+def get_locations(date_formatted):
     # print('sending wsh call for all locations')
     logger_init.info(f'---> Sending call to wsh06 api for locations.')
     # base_url = 'http://localhost:5000'#TODO: put this address in config
     base_url = config.WSH_API_URL_BASE#TODO: put this address in config
     headers = { 'Content-Type': 'application/json'}
     payload = {}
-    payload['password'] = config.EMAIL_PASSWORD
+    payload['password'] = config.WSH_API_PASSWORD
     response_wsh_locations = requests.request('GET',base_url + '/get_locations',
         headers=headers, data=str(json.dumps(payload)))
     
@@ -133,11 +142,11 @@ def get_locations():
         # print(f'Call not succesful. Status code: ', response_oura_tokens.status_code)
         logger_init.info(f'Call not succesful. Status code: {response_wsh_locations.status_code}')
     
-    call_weather_api()
+    call_weather_api(date_formatted)
 
 
 #2) call weather Api every evning 9pm
-def call_weather_api():
+def call_weather_api(date_formatted):
     # print('--- In call_weather_api() of scheduler.py----')
     logger_init.info('--- In call_weather_api() of scheduler.py----')
     with open(os.path.join(config.json_utils_dir, '_locations1_get_locations.json')) as json_file:
@@ -149,10 +158,10 @@ def call_weather_api():
     for loc_id, coords in locations_dict.items():
         location_coords = f"{coords[0]},{coords[1]}"
 
-        yesterday = datetime.today() - timedelta(days=1)
-        yesterday_formatted = yesterday.strftime('%Y-%m-%d')
+        # yesterday = datetime.today() - timedelta(days=1)
+        # yesterday_formatted = yesterday.strftime('%Y-%m-%d')
 
-        date_time = datetime.strptime(yesterday_formatted + " 13:00:00", "%Y-%m-%d %H:%M:%S").isoformat()
+        date_time = datetime.strptime(date_formatted + " 13:00:00", "%Y-%m-%d %H:%M:%S").isoformat()
 
         weather_call_url =f"{config.VISUAL_CROSSING_BASE_URL}{location_coords}/{str(date_time)}?key={config.VISUAL_CROSSING_TOKEN}&include=current"
 
@@ -194,7 +203,7 @@ def send_weather_data_to_wsh():
         base_url = config.WSH_API_URL_BASE
         headers = { 'Content-Type': 'application/json'}
         payload = {}
-        payload['password'] = config.EMAIL_PASSWORD
+        payload['password'] = config.WSH_API_PASSWORD
         payload['weather_response_dict'] = weather_response_dict
         
         response_wsh_weather = requests.request('GET',base_url + '/receive_weather_data', 
@@ -212,7 +221,7 @@ def get_oura_tokens():
     base_url = config.WSH_API_URL_BASE#TODO: put this address in config
     headers = { 'Content-Type': 'application/json'}
     payload = {}
-    payload['password'] = config.EMAIL_PASSWORD
+    payload['password'] = config.WSH_API_PASSWORD
     response_oura_tokens = requests.request('GET',base_url + '/oura_tokens', headers=headers, data=str(json.dumps(payload)))
     oura_tokens_dict = json.loads(response_oura_tokens.content.decode('utf-8'))
     response_oura_tokens.status_code
@@ -277,7 +286,7 @@ def send_oura_data_to_wsh():
     base_url = config.WSH_API_URL_BASE
     headers = {'Content-Type': 'application/json'}
     payload = {}
-    payload['password'] = config.EMAIL_PASSWORD
+    payload['password'] = config.WSH_API_PASSWORD
     payload['oura_response_dict'] = oura_response_dict
     response_oura_tokens = requests.request('GET',base_url + '/receive_oura_data', headers=headers, data=str(json.dumps(payload)))
     logger_init.info(f'---> WSH API /receive_oura_data response: {response_oura_tokens.status_code}')

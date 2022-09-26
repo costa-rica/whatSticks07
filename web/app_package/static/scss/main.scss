@@ -6,6 +6,8 @@
 
 body {
     background-color: var(--bs-gray-200);
+    height: 100%;
+    width: 100%;
 }
 .btn_custom01{
     border-radius: 3em;
@@ -135,7 +137,7 @@ section.home {
                 flex: 1;
                 border-radius: 3em;
                 padding: 100px 0 100px 10px;
-                margin: 0 0 0 30px;
+                margin: 0 0 0 0;
                 text-align: center;
                 font-size: 2.5em;
             }
@@ -155,7 +157,7 @@ section.home {
             // margin: 5%;
             border-radius: 3em;
             padding: 50px 0 50px 5px;
-            margin: 0 0 0 30px;
+            margin: 0 0 0 0;
             // text-align: center;
             font-size: 1.5em;
             background-color: var(--bs-primary);
@@ -323,9 +325,9 @@ section.dashboard{
 /* About us */
 section.about_us {
     padding: var(--nav_height) 5px 0 10px;
-    
+
     .about_us_body{
-        
+
         .title {
             font-size: 3em;
             // background-color: #20c997;
@@ -341,14 +343,15 @@ section.about_us {
             border: 1px solid var(--bs-primary);
             border-width: .5em;
             color: white;
-            a {
-                color: white
-            }
+
+
         }
     }
-
-
 }
+
+
+
+
 
 /*Error Page*/
 section.Error {
@@ -359,6 +362,29 @@ section.Error {
         h3{padding: 25px 0 0 50px;}
     }
 }
+
+
+/* About us */
+section.youtube {
+    padding: var(--nav_height) 5px 0 10px;
+
+
+
+    .videoWrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 */
+        height: 0;
+      }
+      .videoWrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 80%;
+        height: 80%;
+      }
+}
+
+
 
 
 
