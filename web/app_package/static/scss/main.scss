@@ -369,19 +369,43 @@ section.youtube {
     padding: var(--nav_height) 5px 0 10px;
 
 
+    .video_div{
+        padding-left:10%;
+        padding-top:25px;
 
+        
+    }
     .videoWrapper {
         position: relative;
         padding-bottom: 56.25%; /* 16:9 */
         height: 0;
-      }
-      .videoWrapper iframe {
+
+    }
+    .videoWrapper iframe {
         position: absolute;
         top: 0;
         left: 0;
         width: 80%;
         height: 80%;
-      }
+
+    }
+    .div_writing{
+        // margin: 5%;
+        border-radius: 3em;
+        padding: 50px 0 50px 5px;
+        margin: 0 0 0 30px;
+        // text-align: center;
+        font-size: 1.5em;
+        background-color: var(--bs-primary);
+        border: 1px solid var(--bs-primary);
+        border-width: .5em;
+        color: white;
+        // line-height: 1.5em;
+        .indent{padding-left: 15px;
+            padding-top: 10px;
+            line-height: 1.6em;
+        }
+    }
 }
 
 

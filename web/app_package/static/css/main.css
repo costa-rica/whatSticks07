@@ -10903,6 +10903,10 @@ section.Error .error_body h3 {
 section.youtube {
   padding: var(--nav_height) 5px 0 10px;
 }
+section.youtube .video_div {
+  padding-left: 10%;
+  padding-top: 25px;
+}
 section.youtube .videoWrapper {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 */
@@ -10914,6 +10918,21 @@ section.youtube .videoWrapper iframe {
   left: 0;
   width: 80%;
   height: 80%;
+}
+section.youtube .div_writing {
+  border-radius: 3em;
+  padding: 50px 0 50px 5px;
+  margin: 0 0 0 30px;
+  font-size: 1.5em;
+  background-color: var(--bs-primary);
+  border: 1px solid var(--bs-primary);
+  border-width: 0.5em;
+  color: white;
+}
+section.youtube .div_writing .indent {
+  padding-left: 15px;
+  padding-top: 10px;
+  line-height: 1.6em;
 }
 
 @media only screen and (min-width: 1080px) {
