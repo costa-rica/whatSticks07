@@ -2,6 +2,7 @@
 
 :root {
     --nav_height: 125px;
+    // --nav_height: 5px;
   }
 
 body {
@@ -23,7 +24,7 @@ section.navbar_section {
     .navbar_custom{
         justify-content: flex-start;
         position: fixed;
-        z-index: 999;
+        // z-index: 999;
         width:100%;
         .nav_left{
             padding-left: 15px;
@@ -121,21 +122,26 @@ section.navbar_section {
 section.home {
     .home_body{
 
-        padding: var(--nav_height) 0 60px 0;
+        padding-top: var(--nav_height);
         // background-color: purple;
-        .title {
-            padding: 50px 0 0 25px;
-            font-size: 3em;
-        }
+        // .title {
+        //     // padding: 50px 0 0 25px;
+        //     font-size: 3em;
+        // }
         .home_buttons {
-            display:flex;
-            padding-top: 5%;
+            display:grid;
+            // padding-top: .5rem;
 
             .div_button {
                 flex: 1;
                 border-radius: 3em;
+<<<<<<< Updated upstream
                 padding: 100px 0 100px 10px;
                 margin: 0 0 0 30px;
+=======
+                padding: 1rem 0 3rem .5rem;
+                margin: 0 0 0 0;
+>>>>>>> Stashed changes
                 text-align: center;
                 font-size: 2.5em;
             }
@@ -286,7 +292,6 @@ section.account{
 }
 
 
-
 /* Dashboard */
 section.dashboard{
     .dashboard_body {
@@ -347,9 +352,12 @@ section.about_us {
         }
     }
 
+<<<<<<< Updated upstream
 
 }
 
+=======
+>>>>>>> Stashed changes
 /*Error Page*/
 section.Error {
     padding: var(--nav_height) 5px 0 10px;
@@ -361,6 +369,87 @@ section.Error {
 }
 
 
+<<<<<<< Updated upstream
+=======
+/* About us */
+section.youtube {
+    padding: var(--nav_height) 5px 0 10px;
+
+
+    .video_div{
+        padding-left:10%;
+        padding-top:25px;
+
+        
+    }
+    .videoWrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 */
+        height: 0;
+
+    }
+    .videoWrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 80%;
+        height: 80%;
+
+    }
+    .div_writing{
+        // margin: 5%;
+        border-radius: 3em;
+        padding: 50px 0 50px 5px;
+        margin: 0 0 0 30px;
+        // text-align: center;
+        font-size: 1.5em;
+        background-color: var(--bs-primary);
+        border: 1px solid var(--bs-primary);
+        border-width: .5em;
+        color: white;
+        // line-height: 1.5em;
+        .indent{padding-left: 15px;
+            padding-top: 10px;
+            line-height: 1.6em;
+        }
+    }
+}
+
+
+@media only screen and (min-width: 600px){
+    section.home{
+        // align-content: center;
+        // align-items: center;
+        // padding-left: 20%;
+        // justify-content: center;
+        justify-content: space-around;
+        // text-align: center;
+        // padding-left: 25%;
+        min-width: 60rem;
+        
+        .home_body{
+            width: 70%;
+            // align-content: center;
+            
+            // background-color: red;
+            .home_buttons{
+                display: flex;
+            }
+            .div_button {
+                flex: 1;
+                border-radius: 3em;
+                padding: 100px 0 100px 10px;
+                margin: 0 0 0 0;
+                text-align: center;
+                font-size: 2.5em;
+            }
+        }
+
+    }
+
+}
+
+>>>>>>> Stashed changes
 
 
 //For Screen wider than 1080
