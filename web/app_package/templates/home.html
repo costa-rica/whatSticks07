@@ -2,49 +2,40 @@
 {% block main %}
 
 <section class = "home">
+  <div class="not_nav">
 
-  <div class = "home_body">
-    <div class = "title">
-      <!-- Home page -->
-    </div>
-    
-    <form method="POST" action="">
+    <div class="home_body">
+  
       <div class="home_buttons">
-
-        <a class = "div_button home_register" href="{{ url_for('users.register') }}">
+        <a class="div_button home_register" href="{{ url_for('users.register') }}">
           Register
-        </a> 
-
-        <a class = "div_button home_login" href="{{ url_for('users.login') }}">
+        </a>
+        
+        <a class="div_button home_login" href="{{ url_for('users.login') }}">
           Login
         </a>
-
-      </div>
-    </form>
-
-    <br>
-
-    <div class="div_writing">
-      <div class = writing_content>
-        What Sticks (WS) is a sleep and weather tracking application. There have been studies that trace the temperature you sleep in with the quality of sleep you get. This is a step in trying to measure this in a personalized way. WS believes that we have access to too much technology and data to be taking references to broad averages. Instead, we should be personalizing health and wellness.
-          <br><br>
   
-          Once register and the account is updated with the Oura Ring Token and location information WS will collect your Oura Ring Sleep Score and the average temperature of your location.
-          <br><br>
-  
-          As the data accumulates you will be able to see the correlation between your sleep score and the temperature.
-          <br><br>
-          
-          If you would like to see how this works login as a guest and you can see my history.
-          <br><br>
-          
-
       </div>
-
-  </div>
-
-
-
+      <div class="div_writing">
+        <div class = "writing_content">
+          What Sticks (WS) is an application that collects existing data from devices and applications we already use to help navigate our own wellness.
+            <br><br>
+    
+            Currently, it is collecting Oura Ring Sleep Scores and weather data.
+            <br><br>
+    
+            There have been studies that have found a link between the temperature you sleep in with the quality of sleep. WS is attempting to personalize that link by calculating the correlation between your local temperature and Oura Sleep Score. 
+            <br><br>
+            
+            Once registered, users can update their accounts their Oura Ring Token and location information. WS will collect these data daily.
+            <br><br>
+            As the data accumulates you will be able to see the correlation between your sleep score and the temperature.
+            <br><br>
+            If you would like to see how this works login as a guest and you can see my history.
+            <br><br>
+        </div>
+      </div>
+    </div>
   </div>
 
 </section>
