@@ -10585,44 +10585,34 @@ textarea.form-control-lg {
   color: #5c507c;
 }
 
-:root {
-  --nav_height: 125px;
-}
-
-body {
-  background-color: var(--bs-gray-200);
-}
-
-.btn_custom01 {
-  border-radius: 3em;
-  min-width: 75px;
-}
-
-.btn_custom02 {
-  border-radius: 3em;
-  min-width: 75px;
-  background-color: var(--bs-secondary);
-}
-
 /* Navbar */
+section.navbar_section {
+  padding-top: 0;
+  margin-top: 0;
+}
 section.navbar_section .navbar_custom {
   justify-content: flex-start;
   position: fixed;
   width: 100%;
+  height: 5rem;
 }
 section.navbar_section .navbar_custom .nav_left {
-  padding-left: 15px;
-  height: 85px;
+  padding-left: 2rem;
+  height: 6rem;
+  padding-top: -1rem;
+  margin-top: 0;
 }
 section.navbar_section .navbar_custom .nav_left a {
   text-decoration: none;
   font-weight: bold;
   font-size: large;
   color: var(--bs-info);
+  padding-top: 0;
+  margin-top: 0;
 }
 section.navbar_section .navbar_custom .nav_left .dandd_logo {
-  padding-left: 20px;
-  height: 80px;
+  height: 4rem;
+  margin-top: -1rem;
 }
 section.navbar_section .navbar_custom .middle_nav_div {
   display: none;
@@ -10636,24 +10626,21 @@ section.navbar_section .navbar_custom nav {
 section.navbar_section .navbar_custom .mobile-menu {
   position: absolute;
   cursor: pointer;
-  right: 25px;
-  height: 100%;
-  padding-left: 30px;
-  margin-left: 50px;
+  right: 1rem;
+  height: 5rem;
 }
 section.navbar_section .navbar_custom nav {
   position: fixed;
   z-index: 999;
-  width: 40%;
+  width: auto;
   right: 0;
   top: 0;
   background: var(--bs-gray-500);
   height: 100%;
-  margin-left: 0;
 }
 section.navbar_section .navbar_custom nav ul {
   list-style-type: none;
-  padding: 50px 15px 0 0;
+  padding: 2rem 2rem 0 0;
 }
 section.navbar_section .navbar_custom nav ul li {
   font-size: 2em;
@@ -10694,61 +10681,136 @@ section.navbar_section .navbar_custom nav .dropdown:hover {
 }
 .flash_custom_parent .alert_custom {
   position: absolute;
-  top: var(--nav_height);
+  top: var(--nav-height);
   width: 100%;
 }
 .flash_custom_parent .alert_custom .close_right {
   float: right;
 }
 
-/* Home */
-section.home .home_body {
-  padding-top: var(--nav_height);
+@media screen and (min-width: 576px) {
+  section.navbar_section .navbar_custom {
+    height: 8rem;
+  }
+  section.navbar_section .navbar_custom .left_and_middle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+  }
+  section.navbar_section .navbar_custom .left_and_middle .nav_left {
+    flex: 1;
+  }
+  section.navbar_section .navbar_custom .left_and_middle .nav_left .dandd_logo {
+    height: 7rem;
+    margin-top: -1rem;
+  }
+  section.navbar_section .navbar_custom .left_and_middle .middle_nav_div {
+    flex: 5;
+    text-align: center;
+    display: inline;
+    color: white;
+  }
+  section.navbar_section .navbar_custom .left_and_middle .middle_nav_div h1 {
+    font-size: 4vh;
+    margin-bottom: 0;
+  }
+  section.navbar_section .navbar_custom nav {
+    width: 30%;
+  }
+  section.navbar_section .navbar_custom .mobile-menu {
+    right: 1rem;
+    height: 100%;
+  }
 }
-section.home .home_body .home_buttons {
-  display: grid;
+@media screen and (min-width: 620px) {
+  section.navbar_section .navbar_custom .left_and_middle .middle_nav_div h1 {
+    font-size: 6vh;
+  }
+  section.navbar_section .navbar_custom nav {
+    width: 25%;
+  }
 }
-section.home .home_body .home_buttons .div_button {
-  flex: 1;
+:root {
+  --nav-height: 123px;
+}
+
+body {
+  background-color: var(--bs-gray-400);
+}
+
+.btn_custom01 {
   border-radius: 3em;
-<<<<<<< Updated upstream
-  padding: 100px 0 100px 10px;
-  margin: 0 0 0 30px;
-=======
-  padding: 1rem 0 3rem 0.5rem;
-  margin: 0 0 0 0;
->>>>>>> Stashed changes
-  text-align: center;
-  font-size: 2.5em;
+  min-width: 75px;
 }
-section.home .home_body .home_buttons .home_register {
+
+.btn_custom02 {
+  border-radius: 3em;
+  min-width: 75px;
+  background-color: var(--bs-secondary);
+}
+
+/* HOME */
+.not_nav {
+  padding-top: var(--nav-height);
+}
+
+.home_body {
+  padding-left: 5%;
+}
+
+.home_buttons {
+  margin: 0;
+  gap: 1rem;
+  padding: 2rem 0 0 0;
+}
+.home_buttons .div_button {
+  margin: 1rem 0 0 0;
+  width: 100%;
+  border-radius: 3rem;
+  font-size: 2.5rem;
+  padding: 3rem 0 3rem 0;
+  display: flex;
+  justify-content: center;
+}
+.home_buttons .home_register {
   background-color: var(--bs-primary);
-  border: 1px solid var(--bs-primary);
-  border-width: 0.5em;
-  color: white;
+  border: solid var(--bs-primary);
+  border-width: 0.5rem;
+  color: var(--bs-gray-200);
 }
-section.home .home_body .home_buttons .home_login {
+.home_buttons .home_login {
   color: var(--bs-primary);
-  border: 1px solid var(--bs-primary);
-  border-width: 0.5em;
+  border: solid var(--bs-primary);
+  border-width: 0.5rem;
 }
-section.home .home_body .div_writing {
+.home_buttons .home_login:hover {
+  border: 0.5rem solid var(--bs-gray-100);
+}
+.home_buttons .home_register:hover {
+  border: 0.5rem solid var(--bs-gray-100);
+}
+
+.div_writing {
+  padding-top: 1rem;
+}
+.div_writing .writing_content {
+  width: 95%;
+  padding: 5%;
   border-radius: 3em;
-  padding: 50px 0 50px 5px;
-  margin: 0 0 0 30px;
   font-size: 1.5em;
   background-color: var(--bs-primary);
   border: 1px solid var(--bs-primary);
   border-width: 0.5em;
-  color: white;
+  color: var(--bs-gray-200);
 }
-section.home .home_body .div_writing a {
+.div_writing .writing_content a {
   color: white;
 }
 
 /* Register */
 section.register .register_body {
-  padding: var(--nav_height) 5px 0 10px;
+  padding: var(--nav-height) 5px 0 10px;
 }
 section.register .register_body .title {
   font-size: 3em;
@@ -10791,7 +10853,7 @@ section.register .register_body .register_form .forgot_password a {
 
 /* Account */
 section.account .account_body {
-  padding: var(--nav_height) 5px 0 10px;
+  padding: var(--nav-height) 5px 0 10px;
 }
 section.account .account_body .title {
   font-size: 3em;
@@ -10841,7 +10903,7 @@ section.account .account_body .register_form .element_right .btn_loc {
 
 /* Dashboard */
 section.dashboard .dashboard_body {
-  padding: var(--nav_height) 5px 0 10px;
+  padding: var(--nav-height) 5px 0 10px;
 }
 section.dashboard .dashboard_body .title {
   font-size: 3em;
@@ -10868,7 +10930,7 @@ section.dashboard .dashboard_body .dashboard_chart .correlation_div {
 
 /* About us */
 section.about_us {
-  padding: var(--nav_height) 5px 0 10px;
+  padding: var(--nav-height) 5px 0 10px;
 }
 section.about_us .about_us_body .title {
   font-size: 3em;
@@ -10889,7 +10951,7 @@ section.about_us .about_us_body .div_writing a {
 
 /*Error Page*/
 section.Error {
-  padding: var(--nav_height) 5px 0 10px;
+  padding: var(--nav-height) 5px 0 10px;
   color: var(--bs-primary);
 }
 section.Error .error_body {
@@ -10899,11 +10961,9 @@ section.Error .error_body h3 {
   padding: 25px 0 0 50px;
 }
 
-<<<<<<< Updated upstream
-=======
 /* About us */
 section.youtube {
-  padding: var(--nav_height) 5px 0 10px;
+  padding: var(--nav-height) 5px 0 10px;
 }
 section.youtube .video_div {
   padding-left: 10%;
@@ -10937,40 +10997,35 @@ section.youtube .div_writing .indent {
   line-height: 1.6em;
 }
 
-@media only screen and (min-width: 600px) {
-  section.home {
-    justify-content: space-around;
-    min-width: 60rem;
+@media screen and (min-width: 720px) {
+  .home_body {
+    padding-left: 0;
   }
-  section.home .home_body {
-    width: 70%;
-  }
-  section.home .home_body .home_buttons {
+  .home_body .home_buttons {
     display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 3rem 0 1rem 0;
   }
-  section.home .home_body .div_button {
-    flex: 1;
+  .home_body .home_buttons .div_button {
     border-radius: 3em;
-    padding: 100px 0 100px 10px;
-    margin: 0 0 0 0;
-    text-align: center;
     font-size: 2.5em;
+    max-width: 40%;
+    min-width: 10rem;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    display: flex;
+    justify-content: center;
+  }
+  .home_body .div_writing {
+    padding-left: 5%;
   }
 }
->>>>>>> Stashed changes
 @media only screen and (min-width: 1080px) {
-  /* Navbar */
-  section.navbar_section {
-    display: block;
-  }
-  section.navbar_section .navbar_custom .middle_nav_div {
-    display: initial;
-    padding-left: 30%;
-    color: white;
-  }
   /* About us */
   section.about_us {
-    padding: var(--nav_height) 5px 0 10px;
+    padding: var(--nav-height) 5px 0 10px;
   }
   section.about_us .about_us_body {
     padding: 5%;
