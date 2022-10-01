@@ -10585,6 +10585,19 @@ textarea.form-control-lg {
   color: #5c507c;
 }
 
+/* Flash */
+.flash_custom_parent {
+  position: relative;
+}
+.flash_custom_parent .alert_custom {
+  position: absolute;
+  top: var(--nav-height);
+  width: 100%;
+}
+.flash_custom_parent .alert_custom .close_right {
+  float: right;
+}
+
 /* Navbar */
 section.navbar_section {
   padding-top: 0;
@@ -10631,8 +10644,8 @@ section.navbar_section .navbar_custom .mobile-menu {
 }
 section.navbar_section .navbar_custom nav {
   position: fixed;
-  z-index: 999;
-  width: auto;
+  z-index: 9;
+  width: 50%;
   right: 0;
   top: 0;
   background: var(--bs-gray-500);
@@ -10675,27 +10688,15 @@ section.navbar_section .navbar_custom nav .dropdown:hover {
   background-color: none;
 }
 
-/* Flash */
-.flash_custom_parent {
-  position: relative;
-}
-.flash_custom_parent .alert_custom {
-  position: absolute;
-  top: var(--nav-height);
-  width: 100%;
-}
-.flash_custom_parent .alert_custom .close_right {
-  float: right;
-}
-
 @media screen and (min-width: 576px) {
   section.navbar_section .navbar_custom {
-    height: 8rem;
+    height: 9rem;
   }
   section.navbar_section .navbar_custom .left_and_middle {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0 0 1rem 0;
     width: 80%;
   }
   section.navbar_section .navbar_custom .left_and_middle .nav_left {
@@ -10712,23 +10713,16 @@ section.navbar_section .navbar_custom nav .dropdown:hover {
     color: white;
   }
   section.navbar_section .navbar_custom .left_and_middle .middle_nav_div h1 {
-    font-size: 4vh;
+    font-size: 4rem;
     margin-bottom: 0;
   }
   section.navbar_section .navbar_custom nav {
     width: 30%;
+    max-width: 20rem;
   }
   section.navbar_section .navbar_custom .mobile-menu {
     right: 1rem;
     height: 100%;
-  }
-}
-@media screen and (min-width: 620px) {
-  section.navbar_section .navbar_custom .left_and_middle .middle_nav_div h1 {
-    font-size: 6vh;
-  }
-  section.navbar_section .navbar_custom nav {
-    width: 25%;
   }
 }
 :root {
@@ -10809,45 +10803,56 @@ body {
 }
 
 /* Register */
-section.register .register_body {
-  padding: var(--nav-height) 5px 0 10px;
+section.register {
+  padding-top: var(--nav-height);
+  display: flex;
+  flex-wrap: wrap;
 }
-section.register .register_body .title {
+section.register .title {
   font-size: 3em;
+  width: 100%;
 }
-section.register .register_body .register_form {
+section.register .register_form {
+  width: 95%;
   border-radius: 3em;
-  padding: 50px 0 200px 5px;
-  margin: 0 0 0 30px;
+  padding: 3rem 0 10rem 0.2rem;
+  margin: 0 0 0 0.2rem;
   font-size: 1.5em;
   background-color: var(--bs-primary);
-  border: 1px solid var(--bs-primary);
-  border-width: 0.5em;
   color: white;
 }
-section.register .register_body .register_form label {
-  min-width: 110px;
+section.register .register_form .email_combo {
+  padding: 0 0 1rem 0.2rem;
 }
-section.register .register_body .register_form .register_text {
-  min-width: 85%;
+section.register .register_form .register_text {
+  min-width: 95%;
 }
-section.register .register_body .register_form .element_right {
-  padding: 0 20% 0 0;
+section.register .register_form .element_right {
+  display: flex;
+  justify-content: end;
+  flex-wrap: wrap;
 }
-section.register .register_body .register_form .element_right .element_right_sub {
-  width: 30%;
-  float: right;
+section.register .register_form .element_right .show_password {
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  padding: 0 0.5rem 0 0;
 }
-section.register .register_body .register_form .element_right .element_right_sub input {
-  float: right;
+section.register .register_form .element_right .element_right_sub {
+  display: flex;
+  justify-content: end;
+  flex-wrap: wrap;
+  padding: 0.3rem 0.5rem 0 0;
+}
+section.register .register_form .element_right .element_right_sub input {
   font-size: 1.5em;
+  margin-top: 0.5rem;
+  margin-left: 10%;
 }
-section.register .register_body .register_form .forgot_password {
-  float: right;
-  padding-right: 10%;
-  vertical-align: top;
+section.register .register_form .element_right .element_right_sub .forgot_password {
+  margin-top: 0.5rem;
 }
-section.register .register_body .register_form .forgot_password a {
+section.register .register_form .element_right .element_right_sub .forgot_password a {
   color: white;
 }
 
@@ -10909,6 +10914,7 @@ section.dashboard .dashboard_body .title {
   font-size: 3em;
 }
 section.dashboard .dashboard_body .dashboard_chart {
+  z-index: 999;
   border-radius: 3em;
   padding: 50px 0 50px 5px;
   margin: 0 0 0 30px;
@@ -10919,10 +10925,18 @@ section.dashboard .dashboard_body .dashboard_chart {
   color: white;
 }
 section.dashboard .dashboard_body .dashboard_chart .chart {
+  z-index: 0;
   width: 90%;
   border-radius: 2em;
   padding: 10%;
   background-color: #20c997;
+}
+section.dashboard .dashboard_body .dashboard_chart .chart div {
+  z-index: 0 !important;
+  position: relative;
+}
+section.dashboard .dashboard_body .dashboard_chart .chart div .bk-root {
+  background-color: red;
 }
 section.dashboard .dashboard_body .dashboard_chart .correlation_div {
   text-align: center;
@@ -10997,6 +11011,49 @@ section.youtube .div_writing .indent {
   line-height: 1.6em;
 }
 
+@media screen and (min-width: 576px) {
+  section.register {
+    display: flex;
+    justify-content: center;
+  }
+  section.register .register_body {
+    width: 95%;
+    max-width: 90rem;
+    justify-content: center;
+    align-items: center;
+  }
+  section.register .register_body .register_form {
+    align-items: center;
+    padding-left: 1rem;
+  }
+  section.register .register_body .register_form .email_combo {
+    display: flex;
+    font-size: 2rem;
+    width: 100%;
+  }
+  section.register .register_body .register_form .email_combo label {
+    min-width: 25%;
+    width: 25%;
+  }
+  section.register .register_body .register_form .email_combo .register_text {
+    min-width: 60%;
+    max-width: 70%;
+    width: 67%;
+  }
+  section.register .register_body .register_form .element_right {
+    padding-right: 8%;
+  }
+  section.register .register_body .register_form .element_right .element_right_sub {
+    padding-top: 3rem;
+  }
+  section.register .register_body .register_form .element_right .element_right_sub .btn_custom01 {
+    margin-left: 40%;
+  }
+  section.register .register_body .register_form .element_right .element_right_sub .btn_custom02 {
+    margin-left: 40%;
+  }
+}
+/* TODO: Try to move this into 768 */
 @media screen and (min-width: 720px) {
   .home_body {
     padding-left: 0;
@@ -11020,6 +11077,18 @@ section.youtube .div_writing .indent {
   }
   .home_body .div_writing {
     padding-left: 5%;
+  }
+}
+@media screen and (min-width: 768px) {
+  section.register {
+    display: flex;
+    justify-content: center;
+  }
+  section.register .register_body {
+    width: 75%;
+    max-width: 90rem;
+    justify-content: center;
+    align-items: center;
   }
 }
 @media only screen and (min-width: 1080px) {

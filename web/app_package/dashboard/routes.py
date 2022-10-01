@@ -109,7 +109,7 @@ def dashboard():
                 print('--- Has DOES NOT enough observations for correlations ----')
                 correlation = 'too small sample'
 
-
+            
             #make chart
             script_b, div_b, cdn_js_b = make_chart(lists_tuple)
             return render_template('dashboard.html', page_name=page_name,

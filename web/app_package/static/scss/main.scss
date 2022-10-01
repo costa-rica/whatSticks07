@@ -1,6 +1,8 @@
 @use "custom";
 @use "custom_nav";
 
+
+
 :root {
     --nav-height: 123px;
     // --nav-height: 5px;
@@ -42,6 +44,7 @@ body {
         border: solid var(--bs-primary);
         border-width: .5rem;
         color: var(--bs-gray-200);
+
     }
     .home_login {
         color: var(--bs-primary);
@@ -78,52 +81,58 @@ body {
 
 
 /* Register */
-section.register{
-    .register_body {
-        padding: var(--nav-height) 5px 0 10px;
-        // background-color: purple;
-        .title {
-            // padding: 50px 0 0 25px;
-            font-size: 3em;
+section.register {
+    padding-top: var(--nav-height);
+    display: flex;
+    flex-wrap: wrap;
+    .title {
+        font-size: 3em;
+        width: 100%;
+    }
+    .register_form {
+        width: 95%;
+        border-radius: 3em;
+        padding: 3rem 0 10rem .2rem;
+        margin: 0 0 0 .2rem;
+        font-size: 1.5em;
+        background-color: var(--bs-primary);
+        color: white;
+        .email_combo {
+            padding: 0 0 1rem .2rem;
         }
-        .register_form {
-            // display:flex;
-            // padding-top: 5%;
-            border-radius: 3em;
-            padding: 50px 0 200px 5px;
-            margin: 0 0 0 30px;
-            // text-align: center;
-            font-size: 1.5em;
-            background-color: var(--bs-primary);
-            border: 1px solid var(--bs-primary);
-            border-width: .5em;
-            color: white;
-            label {
-                min-width: 110px;
+
+        .register_text {
+            min-width: 95%;
+        }
+        .element_right {
+            display: flex;
+            justify-content: end;
+            flex-wrap: wrap;
+
+            .show_password {
+                display: flex;
+                width: 100%;
+                justify-content: end;
+                padding: 0 .5rem 0 0;
             }
-            .register_text {
-                min-width: 85%;
-            }
-            .element_right{
-                // width: 30%;
-                padding:0 20% 0 0;
-                .element_right_sub{
-                    width: 30%;
-                    float: right;
-                    input {
-                        float: right;
-                        font-size: 1.5em;
+
+            .element_right_sub {
+                display: flex;
+                justify-content: end;
+                flex-wrap: wrap;
+                padding: .3rem .5rem 0 0;
+                input {
+                    font-size: 1.5em;
+                    margin-top: .5rem;
+                    margin-left: 10%;
+                }
+                .forgot_password {
+                    margin-top: .5rem;
+
+                    a {
+                        color: white
                     }
                 }
-
-
-            }
-            .forgot_password {
-                float: right;
-                padding-right: 10%;
-                vertical-align: top;
-                // background-color: #20c997;
-                a{color: white;}
             }
         }
     }
@@ -206,6 +215,7 @@ section.dashboard{
         .dashboard_chart {
             // display:flex;
             // padding-top: 5%;
+            z-index: 999;
             border-radius: 3em;
             padding: 50px 0 50px 5px;
             margin: 0 0 0 30px;
@@ -216,6 +226,9 @@ section.dashboard{
             border-width: .5em;
             color: white;
             .chart {
+                div{z-index: 0!important; position: relative;.bk-root{background-color: red;}}
+                
+                z-index: 0;
                 width: 90%;
                 border-radius: 2em;
                 padding: 10%;
@@ -306,7 +319,52 @@ section.youtube {
 
 
 
+@media screen and (min-width: 576px) {
+    section.register{
+        display: flex;
+        justify-content: center;
+        .register_body{
+            width: 95%;
+            max-width:90rem;
+            justify-content: center;
+            align-items: center;
 
+            .register_form{
+                align-items: center;
+                padding-left:1rem;
+                .email_combo{
+                    display:flex;
+                    font-size: 2rem;
+                    width:100%;
+                    label{
+                        min-width: 25%;
+                        width:25%;
+                        // text-align: center;
+                        
+                    }
+                    .register_text{
+                        min-width: 60%;
+                        max-width: 70%;
+                        width:67%
+                    }
+                }
+                .element_right{
+                    padding-right:8%;
+                    
+                    .element_right_sub{
+                        padding-top: 3rem;
+                        .btn_custom01{margin-left:40%;}
+                        .btn_custom02{margin-left:40%;}
+                    }
+                }
+                
+            }
+        }
+
+    }
+}
+
+/* TODO: Try to move this into 768 */
 @media screen and (min-width: 720px) {
     .home_body{padding-left:0;
     .home_buttons{
@@ -337,8 +395,25 @@ section.youtube {
         padding-left: 5%;
     }
 }
-
 }
+
+
+
+@media screen and (min-width: 768px) {
+    section.register{
+        display: flex;
+        justify-content: center;
+        .register_body{
+            width: 75%;
+            max-width:90rem;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+
+
 
 
 //For Screen wider than 1080
