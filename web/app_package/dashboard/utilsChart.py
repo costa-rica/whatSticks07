@@ -10,6 +10,7 @@ from flask import current_app
 from wsh_models import sess, Oura_sleep_descriptions, Weather_history, User_location_day
 import pandas as pd
 from flask_login import current_user
+import json
 
 def make_oura_df():
     # STEP 1: OURA
@@ -55,27 +56,10 @@ def make_weather_hist_df():
     df_weath_hist = df_weath_hist.rename(columns=({'datetime': 'date'}))
     return df_weath_hist
 
-# def df_for_nick():
-#     #Todo: instead of one table to store everything get lists of date from each of the tables
-#     #for oura sleep be sure to take only 1
-#     base_query = sess.query(User_location_day).filter_by(user_id = 1)
 
-#     # current_user_id = current_user.id if current_user.id != 2 else 1
-#     df = pd.read_sql(str(base_query)[:-1] + str(1), sess.bind)
-
-#     if df.empty:
-#         return df
-
-#     table_name = 'user_location_day_'
-#     cols = list(df.columns)
-#     for col in cols: df = df.rename(columns=({col: col[len(table_name):]}))
-    
-#     #get rid of rows with missing temperature
-#     df = df[df['avgtemp_f'].notna()]
-#     return df
 
 # def make_chart(dates_list, temp_data_list, sleep_data_list):
-def make_chart(lists_tuple):
+def make_chart(lists_tuple, buttons_dict):
     dates_list, sleep_data_list, temp_data_list, cloud_list = lists_tuple
 
     date_start = max(dates_list) - timedelta(days=8.5)
@@ -89,26 +73,28 @@ def make_chart(lists_tuple):
     if temp_data_list != 'is empty':
         print('** STEP 2:  temp NOT empty ')
 #Temperature
-        fig1.circle(dates_list,temp_data_list, 
-            legend_label="Temperature (F)", 
-            fill_color='#c77711', 
-            line_color=None,
-            size=20)
+        if buttons_dict.get('avg_temp') !=1:
+            fig1.circle(dates_list,temp_data_list, 
+                legend_label="Temperature (F)", 
+                fill_color='#c77711', 
+                line_color=None,
+                size=20)
 
-        source1 = ColumnDataSource(dict(x=dates_list, y=temp_data_list, text=temp_data_list)) # data
-        glyph1 = Text(text="text",text_font_size={'value': '10px'},x_offset=-5, y_offset=5) # Image
-        fig1.add_glyph(source1, glyph1)
+            source1 = ColumnDataSource(dict(x=dates_list, y=temp_data_list, text=temp_data_list)) # data
+            glyph1 = Text(text="text",text_font_size={'value': '10px'},x_offset=-5, y_offset=5) # Image
+            fig1.add_glyph(source1, glyph1)
 
 #cloud cover
-        fig1.circle(dates_list,cloud_list, 
-            legend_label="Cloudcover", 
-            fill_color='#6cacc3', 
-            line_color="#3288bd",
-            size=20, line_width=3)
+        if buttons_dict.get('cloudiness') !=1:
+            fig1.circle(dates_list,cloud_list, 
+                legend_label="Cloudcover", 
+                fill_color='#6cacc3', 
+                line_color="#3288bd",
+                size=20, line_width=3)
 
-        source1_cloud = ColumnDataSource(dict(x=dates_list, y=cloud_list, text=cloud_list)) # data
-        glyph1_cloud = Text(text="text",text_font_size={'value': '10px'},x_offset=-5, y_offset=5) # Image
-        fig1.add_glyph(source1_cloud, glyph1_cloud)
+            source1_cloud = ColumnDataSource(dict(x=dates_list, y=cloud_list, text=cloud_list)) # data
+            glyph1_cloud = Text(text="text",text_font_size={'value': '10px'},x_offset=-5, y_offset=5) # Image
+            fig1.add_glyph(source1_cloud, glyph1_cloud)
 
 #sleep rectangle label
     if sleep_data_list != 'is empty':
@@ -134,3 +120,22 @@ def make_chart(lists_tuple):
     cdn_js=CDN.js_files
 
     return script1, div1, cdn_js
+
+
+
+def buttons_dict_util(formDict, dashboard_routes_dir, buttons_dict):
+    # if len(formDict)>0:
+    #1 read json dict with switches
+    if os.path.exists(os.path.join(dashboard_routes_dir,'buttons_dict.json')):
+        with open(os.path.join(dashboard_routes_dir,'buttons_dict.json')) as json_file:
+            buttons_dict = json.load(json_file)
+
+    if buttons_dict.get(list(formDict.keys())[0]) != None:
+        buttons_dict[list(formDict.keys())[0]] = (buttons_dict.get(list(formDict.keys())[0]) + int(formDict[list(formDict.keys())[0]])) % 2
+    else:
+        buttons_dict[list(formDict.keys())[0]] = int(formDict[list(formDict.keys())[0]])
+
+    with open(os.path.join(dashboard_routes_dir,'buttons_dict.json'), 'w') as convert_file:
+        convert_file.write(json.dumps(buttons_dict))
+    print('Wrote buttons_dict.json')
+    return buttons_dict

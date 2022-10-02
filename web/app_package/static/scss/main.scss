@@ -5,11 +5,12 @@
 
 :root {
     --nav-height: 123px;
-    // --nav-height: 5px;
+
   }
 
 body {
     background-color: var(--bs-gray-400);
+
 }
 .btn_custom01{
     border-radius: 3em;
@@ -203,41 +204,89 @@ section.account{
 }
 
 
-/* Dashboard */
-section.dashboard{
-    .dashboard_body {
-        padding: var(--nav-height) 5px 0 10px;
-        // background-color: purple;
-        .title {
-            // padding: 50px 0 0 25px;
-            font-size: 3em;
-        }
-        .dashboard_chart {
-            // display:flex;
-            // padding-top: 5%;
-            z-index: 999;
-            border-radius: 3em;
-            padding: 50px 0 50px 5px;
-            margin: 0 0 0 30px;
-            // text-align: center;
-            font-size: 1.5em;
-            background-color: var(--bs-primary);
-            border: 1px solid var(--bs-primary);
-            border-width: .5em;
-            color: white;
-            .chart {
-                div{z-index: 0!important; position: relative;.bk-root{background-color: red;}}
-                
-                z-index: 0;
-                width: 90%;
-                border-radius: 2em;
-                padding: 10%;
-                background-color: #20c997;
+
+/* DAshbaord */
+section.dashboard {
+    padding-top: var(--nav-height);
+    padding-left: 1%;
+    .title{font-size:3rem}
+}
+
+/* Table and Image */
+.tbl_img{
+    display: flex;
+    flex-wrap:wrap;
+    padding: 1rem .2rem 0 .2rem;
+    gap:1rem;
+}
+
+/* Table */
+.table_div{
+    flex:1 0 33%; 
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    // padding: 2rem;
+    .table_div_sub{
+        // max-width: 40rem;
+        // display: inline-block;
+        .table_headers {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 70% 30%;
+            border-bottom: .15rem solid black;
+            // border-radius: 13%;
+            .header {
+                font-size: 3vh;
+                // width:fit-content
             }
-            .correlation_div{text-align: center;}
+
+            .header_corr {
+                display:flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+        .table_content {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 70% 30%;
+            .row_header{
+                .btn_header {
+                    width: 90%;
+                    font-size: 2.5vh;
+                    white-space: normal;
+                    // background-color: red;
+                }
+                .btn_pressed_on {
+                    border-style:inset;
+                    background-color: darkgray;
+                }
+            }
+
+            .row_value {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 3vh
+            }
         }
     }
 }
+
+
+/* Bokeh Chart */
+.bokeh_div{
+    flex: 2 0 66%;
+    width: 90%;
+    border-radius: 2em;
+    padding: 1%;
+    background-color: #20c997;
+    position: relative;
+    z-index: 0;
+}
+
 
 
 /* About us */
@@ -418,18 +467,15 @@ section.youtube {
 
 //For Screen wider than 1080
 @media only screen and (min-width: 1080px) {
-//     /* Navbar */
-//     section.navbar_section {
-//         display: block;
-//         .navbar_custom{
 
-//             .middle_nav_div {
-//                 display: initial;
-//                 padding-left: 30%;
-//                 color: white;
-//             }
-//         }
-//     }
+    /* Dashboard */
+    .tbl_img {
+        padding: 2rem 1rem 1rem 1rem;
+
+        .bokeh_div{
+            min-width: 50rem;
+        }
+    }
 /* About us */
     section.about_us {
         padding: var(--nav-height) 5px 0 10px;
