@@ -127,12 +127,14 @@ section.navbar_section {
                 // justify-content: center;
                 text-align: center;
                 display: inline;
-                color: white;
+                // color: white;
                 h1{
                     font-size: 4rem;
                     margin-bottom:0;
+                    color: var(--bs-gray-200)
                     // padding-bottom:0;
                 }
+                h3 {color: var(--bs-gray-200)}
                 
             }
         }
